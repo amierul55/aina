@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For Aina ❤</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;touch-action:none;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 29'%3E%3Cpath fill='%23ff4d8d' stroke='white' stroke-width='1.5' d='M23.6 1c-3.4 0-6.3 2.7-7.6 5.6C14.7 3.7 11.8 1 8.4 1 3.8 1 1 4.8 1 9.4c0 9.4 9.5 11.9 15 19.2 5.1-7.3 15-10.1 15-19.2C31 4.8 28.2 1 23.6 1z'/%3E%3C/svg%3E") 14 14,auto;background:#12020a;font-family:'Playfair Display',serif;color:#fff}
+canvas{position:fixed;inset:0}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 40%,#7a0d33 0%,#3a0518 45%,#12020a 100%)}
+.stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:3}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.2s}
+.scene.on{opacity:1;pointer-events:auto}
+#intro .env{font-size:90px;animation:bob 2s ease-in-out infinite;filter:drop-shadow(0 0 25px #ff4d8d)}
+#intro p{margin-top:24px;font-size:20px;letter-spacing:3px;color:#ffd1e0}
+.btn{margin-top:28px;padding:14px 34px;border:1.5px solid #ffd27a;border-radius:40px;background:rgba(255,210,122,.08);color:#ffd27a;font:600 17px 'Playfair Display';letter-spacing:2px;cursor:pointer;animation:pulse 2s infinite}
+@keyframes bob{50%{transform:translateY(-14px) rotate(-4deg)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,210,122,.5)}50%{box-shadow:0 0 0 14px rgba(255,210,122,0)}}
+.line{font-size:clamp(22px,5.5vw,34px);font-style:italic;color:#ffe3ec;opacity:0;transform:translateY(20px);transition:all 1.4s}
+.line.show{opacity:1;transform:none}
+.big{font-family:'Great Vibes',cursive;font-size:clamp(64px,17vw,140px);line-height:1.05;background:linear-gradient(90deg,#ffd27a,#fff2d0,#ff9bb8,#ffd27a);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite;filter:drop-shadow(0 0 18px rgba(255,120,170,.6))}
+.name{font-size:clamp(80px,24vw,190px)}
+@keyframes shine{to{background-position:300%}}
+.heart{width:150px;height:150px;margin:10px auto;animation:beat 1.2s infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+.from{margin-top:18px;font-family:'Great Vibes';font-size:clamp(38px,10vw,64px);color:#ffd27a;opacity:0;transition:opacity 2s 2.5s}
+.on .from{opacity:1}
+.hint{position:fixed;bottom:18px;width:100%;text-align:center;font-size:13px;color:#ff9bb8;opacity:.7;z-index:4}
+</style></head><body>
+<div class="bg"></div><canvas id="c"></canvas>
+<div class="stage">
+ <div class="scene on" id="intro">
+  <div class="env">💌</div>
+  <p>A LITTLE SOMETHING FOR YOU</p>
+  <button class="btn" id="open">Open, Aina ✨</button>
+ </div>
+ <div class="scene" id="story">
+  <div class="line" id="l"></div>
+ </div>
+ <div class="scene" id="final">
+  <div class="big">I love you</div>
+  <svg class="heart" viewBox="0 0 32 29"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b9a"/><stop offset="1" stop-color="#c2003f"/></linearGradient></defs><path fill="url(#g)" d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.2 6.1-9.3 16-12.1 16-21.2C32 3.8 28.2 0 23.6 0z"/></svg>
+  <div class="big name">Aina</div>
+  <div class="from">— from Syafiq ♥</div>
+ </div>
+</div>
+<div class="hint" id="hint">tap anywhere for more hearts</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,P=[],S=[];
+function rs(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio}rs();onresize=rs;
+const D=devicePixelRatio;
+for(let i=0;i<120;i++)S.push({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,t:Math.random()*6});
+function hp(cx,cy,s){x.beginPath();for(let a=0;a<6.3;a+=.1){const px=16*Math.sin(a)**3,py=13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a);x.lineTo(cx+px*s,cy-py*s)}x.fill()}
+function add(px,py,burst){const n=burst?28:1;for(let i=0;i<n;i++){const a=Math.random()*6.28,v=burst?Math.random()*6+2:0;
+P.push({x:px??Math.random()*W,y:py??H+30,vx:burst?Math.cos(a)*v*D:(Math.random()-.5)*.6*D,vy:burst?Math.sin(a)*v*D:-(Math.random()*1.4+.6)*D,s:(Math.random()*.6+.3)*D,l:1,h:330+Math.random()*30,w:Math.random()*6,burst})}}
+let rate=.15;
+(function loop(t){x.clearRect(0,0,W,H);
+for(const s of S){x.fillStyle=`rgba(255,220,235,${.3+.5*Math.abs(Math.sin(t/900+s.t))})`;x.beginPath();x.arc(s.x*W,s.y*H,s.r*D,0,7);x.fill()}
+if(Math.random()<rate)add();
+P=P.filter(p=>p.l>0&&p.y>-50);for(const p of P){p.w+=.03;p.x+=p.vx+Math.sin(p.w)*.4*D;p.y+=p.vy;if(p.burst){p.vy+=.08*D;p.vx*=.98;p.l-=.012}
+x.globalAlpha=Math.max(0,p.l)*.85;x.fillStyle=`hsl(${p.h},90%,${p.burst?70:62}%)`;x.shadowColor='#ff4d8d';x.shadowBlur=12*D;hp(p.x,p.y,p.s)}
+x.globalAlpha=1;x.shadowBlur=0;requestAnimationFrame(loop)})(0);
+addEventListener('pointerdown',e=>add(e.clientX*D,e.clientY*D,true));
+// sparkle love trail following cursor / finger
+let lt=0;
+addEventListener('pointermove',e=>{const now=performance.now();if(now-lt<25)return;lt=now;
+ for(let i=0;i<2;i++){const a=Math.random()*6.28,v=Math.random()*1.2;
+  P.push({x:e.clientX*D,y:e.clientY*D,vx:Math.cos(a)*v*D,vy:(Math.sin(a)*v-0.8)*D,s:(Math.random()*.18+.1)*D,l:1,h:320+Math.random()*50,w:Math.random()*6,burst:true,trail:true});}
+ T.push({x:e.clientX*D,y:e.clientY*D,l:1,r:Math.random()*2+1});
+});
+let T=[];
+(function spark(){for(const s of T){s.l-=.04;x.globalAlpha=Math.max(0,s.l);x.fillStyle='#fff3c4';x.shadowColor='#ffd27a';x.shadowBlur=10*D;
+ const r=s.r*D*2*s.l;x.beginPath();x.moveTo(s.x,s.y-r*2);x.lineTo(s.x+r*.4,s.y-r*.4);x.lineTo(s.x+r*2,s.y);x.lineTo(s.x+r*.4,s.y+r*.4);x.lineTo(s.x,s.y+r*2);x.lineTo(s.x-r*.4,s.y+r*.4);x.lineTo(s.x-r*2,s.y);x.lineTo(s.x-r*.4,s.y-r*.4);x.fill()}
+ T=T.filter(s=>s.l>0);x.globalAlpha=1;x.shadowBlur=0;requestAnimationFrame(spark)})();
+const lines=["Hey Aina…","Some people make life brighter just by being in it.","For me, that person is you.","Every smile of yours is my favourite moment.","So I made this, just to tell you…"];
+const sleep=m=>new Promise(r=>setTimeout(r,m));
+function show(id){document.querySelectorAll('.scene').forEach(s=>s.classList.toggle('on',s.id===id))}
+document.getElementById('open').onclick=async()=>{
+ add(W/2,H/2,true);show('story');rate=.3;const l=document.getElementById('l');
+ for(const t of lines){await sleep(700);l.textContent=t;l.classList.add('show');await sleep(2600);l.classList.remove('show');await sleep(900)}
+ show('final');rate=.7;
+ for(let i=0;i<6;i++){setTimeout(()=>add(Math.random()*W,Math.random()*H*.7,true),i*400)}
+ setInterval(()=>add(Math.random()*W,Math.random()*H*.6,true),2500);
+};
+</script></body></html>
